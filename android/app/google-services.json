@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1053330545319",
+    "project_id": "childrensmusicbrigade3",
+    "storage_bucket": "childrensmusicbrigade3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053330545319:android:42dec04052d4a93c269982",
+        "android_client_info": {
+          "package_name": "com.example.my_new_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5z52BJ2aoNAzrRyLX8lxeWBK5dzk7xIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
