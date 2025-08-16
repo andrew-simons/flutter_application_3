@@ -34,6 +34,7 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
     _fetchEvents();
   }
 
+// Check if the user is an admin
   Future<void> _checkIfAdmin() async {
     if (user != null) {
       try {
@@ -52,6 +53,7 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
     }
   }
 
+// Fetch events from Firestore
   Future<void> _fetchEvents() async {
     try {
       final eventsCollection = FirebaseFirestore.instance.collection('events');
