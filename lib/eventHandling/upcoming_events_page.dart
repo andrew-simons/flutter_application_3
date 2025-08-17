@@ -7,6 +7,8 @@ import 'package:my_new_project/custom_app_bar.dart';
 
 import 'dart:developer';
 
+import 'package:my_new_project/loading_button.dart';
+
 class UpcomingEventsPage extends StatefulWidget {
   const UpcomingEventsPage({super.key});
 
@@ -25,6 +27,46 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
   Set<String> signedUpEvents = {};
   Map<String, bool> attendanceMap = {};
   bool hasPassed = false;
+  bool _isPageLoading = true;
+
+  final Map<String, bool> _isLoadingSignUpMap =
+      {}; // Tracks loading state per event
+  final Map<String, bool> _isLoadingVolunteersMap =
+      {}; // Tracks loading state for volunteers
+
+  Future<void> _handleSignUp(String eventId) async {
+    setState(() {
+      _isLoadingSignUpMap[eventId] = true; // start loading
+    });
+
+    try {
+      await _signUp(eventId); // your existing sign-up/cancel logic
+      await _fetchEvents(); // refresh the event list
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingSignUpMap[eventId] = false; // stop loading
+        });
+      }
+    }
+  }
+
+  Future<void> _handleVolunteers(String eventId) async {
+    setState(() {
+      _isLoadingSignUpMap[eventId] = true; // start loading
+    });
+
+    try {
+      await _signUp(eventId); // your existing sign-up/cancel logic
+      await _fetchEvents(); // refresh the event list
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingSignUpMap[eventId] = false; // stop loading
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -65,6 +107,7 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
             data['id'] = doc.id;
             return data;
           }).toList();
+          _isPageLoading = false;
         });
       }
 
@@ -83,6 +126,11 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
           }
         } catch (e) {
           log('Error fetching signed up events: $e');
+          if (mounted) {
+            setState(() {
+              _isPageLoading = false;
+            });
+          }
         }
       }
     } catch (e) {
@@ -788,6 +836,13 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
         events.where((event) => event['hasPassed'] == true).toList();
     final hasNotPassedEvents =
         events.where((event) => event['hasPassed'] == false).toList();
+    if (_isPageLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: const CustomAppBar(
@@ -899,31 +954,59 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
                             ),
                           ],
                           Expanded(
-                            child: FutureBuilder<bool>(
-                              future: _checkUserSignedUp(eventId),
-                              builder: (context, snapshot) {
-                                final isSignedUp = snapshot.data ?? false;
+                            child: LoadingButton(
+                              isLoading: _isLoadingSignUpMap[eventId] ??
+                                  false, // track loading per event
+                              onPressed: () async {
+                                setState(() {
+                                  _isLoadingSignUpMap[eventId] =
+                                      true; // start loading
+                                });
 
-                                return event['hasPassed'] == false
-                                    ? ElevatedButton(
-                                        onPressed: () => _signUp(eventId),
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            isSignedUp
-                                                ? 'Cancel Sign Up'
-                                                : 'Sign Up',
-                                          ),
-                                        ),
-                                      )
-                                    : const SizedBox.shrink();
+                                try {
+                                  await _signUp(
+                                      eventId); // toggles sign up in Firebase
+                                  await _fetchEvents(); // refresh local state
+                                } finally {
+                                  if (mounted) {
+                                    setState(() {
+                                      _isLoadingSignUpMap[eventId] =
+                                          false; // stop loading
+                                    });
+                                  }
+                                }
                               },
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  isUserSignedUp ? 'Cancel Sign Up' : 'Sign Up',
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 8.0),
                           Expanded(
-                            child: ElevatedButton(
-                              onPressed: () => _viewVolunteers(eventId),
+                            child: LoadingButton(
+                              isLoading: _isLoadingVolunteersMap[eventId] ??
+                                  false, // track loading per event
+                              onPressed: () async {
+                                setState(() {
+                                  _isLoadingVolunteersMap[eventId] =
+                                      true; // start loading
+                                });
+
+                                try {
+                                  await _viewVolunteers(
+                                      eventId); // your existing function
+                                } finally {
+                                  if (mounted) {
+                                    setState(() {
+                                      _isLoadingVolunteersMap[eventId] =
+                                          false; // stop loading
+                                    });
+                                  }
+                                }
+                              },
                               child: const FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text('View Volunteers'),

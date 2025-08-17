@@ -12,6 +12,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 //import 'package:firebase_storage/firebase_storage.dart';
+import 'package:my_new_project/loading_button.dart';
 
 class ClaimVolunteerHoursPage extends StatefulWidget {
   const ClaimVolunteerHoursPage({super.key});
@@ -25,7 +26,8 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
   List<Map<String, dynamic>> eventsParticipated = [];
   List<Map<String, dynamic>> signedUpEvents = [];
   int volunteerHours = 0;
-  bool _isLoading = false;
+  bool _isLoading = false; // button spinner
+  bool _isPageLoading = true; // page loading spinner
 
   @override
   void initState() {
@@ -39,6 +41,11 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
       if (user != null) {
         userId = user.uid;
         await _fetchUserEvents();
+        if (mounted) {
+          setState(() {
+            _isPageLoading = false;
+          });
+        }
       } else {
         Fluttertoast.showToast(
           msg: "No user is currently signed in.",
@@ -48,6 +55,11 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
           textColor: Colors.white,
           fontSize: 16.0,
         );
+        if (mounted) {
+          setState(() {
+            _isPageLoading = false;
+          });
+        }
       }
     } catch (e) {
       Fluttertoast.showToast(
@@ -58,6 +70,11 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+      if (mounted) {
+        setState(() {
+          _isPageLoading = false;
+        });
+      }
     }
   }
 
@@ -296,154 +313,168 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
         helpMessage:
             'With the click of a button, you will receive an email with your volunteer hours formally documented. You can only claim volunteer hours once you have performed at least one time.',
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.teal.shade50,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.teal, width: 2),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'You have $volunteerHours total volunteer hours!',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal,
-                    ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.teal.shade50,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.teal, width: 2),
                   ),
-                  const SizedBox(height: 5),
-                  const Divider(
-                    height: 2,
-                    color: Colors.black45,
-                    indent: 5,
-                    endIndent: 5,
-                    thickness: 3,
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Events You Have Participated In:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 150, // Set a fixed height for the scrollable area
-                    child: Scrollbar(
-                      thumbVisibility: true, // Show scrollbar thumb
-                      child: SingleChildScrollView(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: eventsParticipated.length,
-                          itemBuilder: (context, index) {
-                            final event = eventsParticipated[index];
-                            return ListTile(
-                              title: Text(event['name']),
-                              subtitle: Text(
-                                DateFormat('MMM d, yyyy \'at\' h:mm a')
-                                    .format(event['date']),
-                              ),
-                            );
-                          },
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'You have $volunteerHours total volunteer hours!',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal,
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Center(
-                          child: ElevatedButton(
-                            onPressed: _claimHours,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.teal,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 50, vertical: 15),
-                              textStyle: const TextStyle(fontSize: 18),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            child: const Text(
-                              'Claim Hours',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      const SizedBox(height: 5),
+                      const Divider(
+                        height: 2,
+                        color: Colors.black45,
+                        indent: 5,
+                        endIndent: 5,
+                        thickness: 3,
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Events You Have Participated In:',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height:
+                            150, // Set a fixed height for the scrollable area
+                        child: Scrollbar(
+                          thumbVisibility: true, // Show scrollbar thumb
+                          child: SingleChildScrollView(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: eventsParticipated.length,
+                              itemBuilder: (context, index) {
+                                final event = eventsParticipated[index];
+                                return ListTile(
+                                  title: Text(event['name']),
+                                  subtitle: Text(
+                                    DateFormat('MMM d, yyyy \'at\' h:mm a')
+                                        .format(event['date']),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.teal, width: 2),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Future Events You Are Signed Up For:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                      ),
+                      const SizedBox(height: 20),
+                      _isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Center(
+                              child: LoadingButton(
+                                isLoading: _isLoading,
+                                onPressed: _claimHours,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.teal,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 50, vertical: 15),
+                                  textStyle: const TextStyle(fontSize: 18),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Claim Hours',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 150, // Set a fixed height for the scrollable area
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: signedUpEvents.length,
-                          itemBuilder: (context, index) {
-                            final event = signedUpEvents[index];
-                            return ListTile(
-                              title: Text(
-                                event['name'],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              subtitle: Text(
-                                DateFormat('MMM d, yyyy \'at\' h:mm a')
-                                    .format(event['date']),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            );
-                          },
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.teal, width: 2),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Future Events You Are Signed Up For:',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height:
+                            150, // Set a fixed height for the scrollable area
+                        child: Scrollbar(
+                          child: SingleChildScrollView(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: signedUpEvents.length,
+                              itemBuilder: (context, index) {
+                                final event = signedUpEvents[index];
+                                return ListTile(
+                                  title: Text(
+                                    event['name'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    DateFormat('MMM d, yyyy \'at\' h:mm a')
+                                        .format(event['date']),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          if (_isPageLoading)
+            Container(
+              color: Colors.white.withOpacity(0.8),
+              child: const Center(
+                child: CircularProgressIndicator(),
               ),
             ),
-          ],
-        ),
+        ],
       ),
       backgroundColor: Colors.white,
     );
