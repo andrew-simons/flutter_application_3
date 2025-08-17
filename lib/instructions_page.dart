@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'custom_app_bar.dart';
+import 'Functionalities/custom_app_bar.dart';
 
 class InstructionsPage extends StatelessWidget {
   const InstructionsPage({super.key});
@@ -54,7 +54,7 @@ class InstructionsPage extends StatelessWidget {
                     _buildRichText('Wear concert black attire:',
                         ' If possible; otherwise, just wear all black.'),
                     _buildRichText('Questions:',
-                        ' If you have any questions, feel free to ask!'),
+                        ' If you have any questions, feel free to email us at childrensmusicbrigade@gmail.com!'),
                   ],
                   color: Colors.greenAccent.withOpacity(0.2),
                 ),

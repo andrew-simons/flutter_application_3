@@ -8,7 +8,7 @@ import 'decision_tree.dart';
 import 'auth/login_page.dart';
 import 'home_page.dart';
 import 'auth/sign_up_page.dart';
-import 'eventHandling/upcoming_events_page.dart';
+import 'upcoming_events_page.dart';
 import 'claim_volunteer_hours_page.dart';
 
 import 'dart:developer';

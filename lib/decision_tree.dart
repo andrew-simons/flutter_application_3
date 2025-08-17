@@ -5,7 +5,7 @@ import 'package:my_new_project/admin_panel_page.dart';
 import 'package:my_new_project/instructions_page.dart';
 import 'auth/login_page.dart';
 import 'home_page.dart';
-import 'eventHandling/upcoming_events_page.dart';
+import 'upcoming_events_page.dart';
 import 'settings_page.dart';
 import 'claim_volunteer_hours_page.dart';
 import 'dart:async'; // Import to use StreamSubscription

@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_new_project/custom_app_bar.dart';
+import 'package:my_new_project/Functionalities/custom_app_bar.dart';
 
 import 'dart:developer';
 
-import 'package:my_new_project/loading_button.dart';
+import 'package:my_new_project/Functionalities/loading_button.dart';
 
 class UpcomingEventsPage extends StatefulWidget {
   const UpcomingEventsPage({super.key});
