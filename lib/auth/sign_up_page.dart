@@ -173,7 +173,7 @@ class SignUpPageState extends State<SignUpPage> {
                   TextField(
                     controller: passwordController,
                     decoration: const InputDecoration(
-                      labelText: 'Password (same used for email)',
+                      labelText: 'Password',
                       border: OutlineInputBorder(),
                     ),
                     obscureText: true,
