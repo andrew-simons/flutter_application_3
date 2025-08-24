@@ -18,6 +18,7 @@ class AdminImageUploadDialogState extends State<AdminImageUploadDialog> {
   File? _imageFile;
   String _uploadStatus = '';
 
+//Image picking and uploading doesnt't currently work
   Future<void> _pickImage() async {
     final XFile? pickedFile =
         await picker.pickImage(source: ImageSource.gallery);

@@ -27,12 +27,11 @@ class InstructionsPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // The content with the instructions and boxes
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                const SizedBox(height: 20.0), // Spacing below the app bar
+                const SizedBox(height: 20.0),
                 _buildInstructionBox(
                   title: 'Preparation',
                   content: [
@@ -69,7 +68,7 @@ class InstructionsPage extends StatelessWidget {
                   ],
                   color: Colors.orangeAccent.withOpacity(0.2),
                 ),
-                const SizedBox(height: 20.0), // Spacing at the bottom
+                const SizedBox(height: 20.0),
               ],
             ),
           ),
@@ -77,14 +76,14 @@ class InstructionsPage extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              height: 50.0, // Adjust height for top fade effect
+              height: 50.0,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white.withOpacity(0.9), // Top fade color
-                    Colors.white.withOpacity(0.0), // Fully transparent
+                    Colors.white.withOpacity(0.9),
+                    Colors.white.withOpacity(0.0),
                   ],
                 ),
               ),
@@ -94,14 +93,14 @@ class InstructionsPage extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 50.0, // Adjust height for bottom fade effect
+              height: 50.0,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    Colors.white.withOpacity(0.9), // Bottom fade color
-                    Colors.white.withOpacity(0.0), // Fully transparent
+                    Colors.white.withOpacity(0.9),
+                    Colors.white.withOpacity(0.0),
                   ],
                 ),
               ),

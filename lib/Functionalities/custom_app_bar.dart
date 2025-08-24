@@ -4,14 +4,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final double height;
   final List<Color> gradientColors;
-  final String helpMessage; // Add this field
+  final String helpMessage;
 
   const CustomAppBar({
     super.key,
     required this.title,
     this.height = 100.0, // Default height
     this.gradientColors = const [Colors.blueAccent, Colors.lightBlue],
-    required this.helpMessage, // Add this field
+    required this.helpMessage,
   });
 
   @override

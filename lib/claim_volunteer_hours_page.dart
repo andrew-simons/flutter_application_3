@@ -145,7 +145,7 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
     }
 
     setState(() {
-      _isLoading = true; // Set loading state to true
+      _isLoading = true;
     });
 
     try {
@@ -277,7 +277,7 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
             ),
             pw.SizedBox(height: 30),
 
-            // Signature Section
+            // Signature and Footer
             pw.Text('Sincerely,', style: const pw.TextStyle(fontSize: 12)),
             pw.Image(signature, width: 110, height: 50),
             pw.SizedBox(height: 5),
@@ -357,10 +357,9 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
-                        height:
-                            150, // Set a fixed height for the scrollable area
+                        height: 150,
                         child: Scrollbar(
-                          thumbVisibility: true, // Show scrollbar thumb
+                          thumbVisibility: true,
                           child: SingleChildScrollView(
                             child: ListView.builder(
                               shrinkWrap: true,
@@ -431,8 +430,7 @@ class ClaimVolunteerHoursPageState extends State<ClaimVolunteerHoursPage> {
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
-                        height:
-                            150, // Set a fixed height for the scrollable area
+                        height: 150,
                         child: Scrollbar(
                           child: SingleChildScrollView(
                             child: ListView.builder(

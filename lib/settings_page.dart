@@ -123,7 +123,7 @@ class SettingsPageState extends State<SettingsPage> {
   }
 
   void toggleNotifications(bool value) {
-    // Functionality to toggle notifications
+    // Functionality to toggle notifications (not implemented yet)
   }
 
   void navigateToClaimVolunteerHoursPage() {

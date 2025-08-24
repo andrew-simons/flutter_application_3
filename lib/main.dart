@@ -12,7 +12,7 @@ import 'upcoming_events_page.dart';
 import 'claim_volunteer_hours_page.dart';
 
 import 'dart:developer';
-import 'dart:io'; // To check the platform
+import 'dart:io';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/', // Use initialRoute instead of home
+      initialRoute: '/',
       routes: {
-        '/': (context) =>
-            const InitializationScreen(), // Set InitializationScreen as the default route
+        '/': (context) => const InitializationScreen(),
         '/login': (context) => const LoginPage(onSignInAno: null),
         '/home': (context) => const HomePage(),
         '/signup': (context) => const SignUpPage(),

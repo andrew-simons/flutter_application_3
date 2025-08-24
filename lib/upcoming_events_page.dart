@@ -900,7 +900,7 @@ class UpcomingEventsPageState extends State<UpcomingEventsPage> {
               height: 220,
               margin: const EdgeInsets.all(8.0),
               child: Card(
-                color: backgroundColor, // Apply tint based on sign-up status
+                color: backgroundColor, // Apply tint (based on sign-up status)
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(

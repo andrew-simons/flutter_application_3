@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore package
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_new_project/admin_panel_page.dart';
 import 'package:my_new_project/instructions_page.dart';
 import 'auth/login_page.dart';
@@ -8,7 +8,7 @@ import 'home_page.dart';
 import 'upcoming_events_page.dart';
 import 'settings_page.dart';
 import 'claim_volunteer_hours_page.dart';
-import 'dart:async'; // Import to use StreamSubscription
+import 'dart:async';
 
 import 'dart:developer';
 
@@ -74,7 +74,7 @@ class _DecisionTreeState extends State<DecisionTree> {
       setState(() {
         user = userCred;
         if (user != null) {
-          _checkIfAdmin(user!.uid); // Null check with ! operator
+          _checkIfAdmin(user!.uid); // Null check
         } else {
           isAdmin = false;
         }
@@ -88,7 +88,7 @@ class _DecisionTreeState extends State<DecisionTree> {
     setState(() {
       selectedIndex = index;
     });
-    Navigator.pop(context); // Close the drawer
+    Navigator.pop(context);
   }
 
   Future<void> _logOut() async {

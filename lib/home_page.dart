@@ -22,8 +22,6 @@ class HomePageState extends State<HomePage>
   final PageController _pageController = PageController();
   bool _isAdmin = false;
 
-  //int _currentIndex = 0;
-
   @override
   void initState() {
     super.initState();
@@ -54,7 +52,6 @@ class HomePageState extends State<HomePage>
           .get();
 
       if (mounted) {
-        // Check if widget is still mounted
         if (userDoc.exists) {
           final userData = userDoc.data();
           if (userData != null && userData['role'] == 'admin') {
@@ -69,7 +66,6 @@ class HomePageState extends State<HomePage>
 
   Future<void> _showImageUploadDialog() async {
     if (mounted) {
-      // Check if widget is still mounted
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -192,7 +188,7 @@ class HomePageState extends State<HomePage>
             ),
             const SizedBox(height: 30),
 
-            // Highlights Section
+            // Highlights Section (not working yet)
             Container(
               alignment: Alignment.bottomLeft,
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -244,7 +240,7 @@ class HomePageState extends State<HomePage>
                 },
               ),
             ),
-            if (_isAdmin) // Only show the button if the user is an admin
+            if (_isAdmin) // Only show if the user is an admin
 
               Align(
                 alignment: Alignment.bottomRight,
@@ -414,7 +410,7 @@ class AdminImageUploadDialogState extends State<AdminImageUploadDialog> {
           .collection('highlights')
           .doc('images')
           .set({
-        'urls': imageUrls, // Replace existing URLs with new ones
+        'urls': imageUrls,
       });
     } catch (e) {
       setState(() {
@@ -470,7 +466,7 @@ class AdminImageUploadDialogState extends State<AdminImageUploadDialog> {
             const SizedBox(height: 20),
             if (_selectedImages.isNotEmpty)
               SizedBox(
-                height: 120, // Ensure this height fits your content
+                height: 120,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: _selectedImages.length,
@@ -478,8 +474,8 @@ class AdminImageUploadDialogState extends State<AdminImageUploadDialog> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: Container(
-                        width: 100, // Ensure this width is appropriate
-                        height: 100, // Ensure this height is appropriate
+                        width: 100,
+                        height: 100,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8.0),

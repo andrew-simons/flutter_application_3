@@ -25,7 +25,7 @@ class SignUpPageState extends State<SignUpPage> {
 
   Future<void> signUpWithEmailAndPassword() async {
     setState(() {
-      errorMessage = null; // Clear previous error messages
+      errorMessage = null;
       _isLoading = true; // Show loading indicator
     });
 
